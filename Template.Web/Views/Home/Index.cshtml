@@ -1,0 +1,22 @@
+﻿<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<!-- card is only visible when authorised - note use of asp-authorize -->
+<div asp-authorize class="card">
+    <div class="card-body">
+        <h4 class="card-title">Authorized</h4>
+        <p class="card-text">This content is only visible if you are Authorized.</p>
+
+        <!-- p elements are only rendered when user has specified role(s) -->
+        <p asp-roles="admin">This content is only visible if you are authenticated and have the <span class="text-primary">admin</span> role</p>
+        <p asp-roles="guest">This content is only visible if you are authenticated and have the <span class="text-danger">guest</span> role</p>
+        <p asp-roles="manager">This content is only visible if you are authenticated and have the <span class="text-danger">manager</span> role</p>
+        <p asp-roles="admin,manager">This content is visible if you have the <span class="text-danger">admin or manager</span> roles</p>
+
+    </div>
+</div>
+
+

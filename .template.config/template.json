@@ -1,0 +1,32 @@
+{
+    "author": "a.mccaughey@ulster.ac.uk",
+    "classifications": [ "Web","MVC","Api" ],
+    "name": "Termon Base Template",
+    "identity": "base.termoncs.com",   
+    "shortName": "termonbase",           
+    "tags": {
+        "language": "C#"                  
+    },
+    "sourceName": "Template",      
+    "preferNameDirectory" : "true",
+    "primaryOutputs": [
+        {
+            "path": "Template.Data\\Template.Data.csproj"
+        },
+        {
+            "path": "Template.Test\\Template.Test.csproj"
+        },
+        {
+            "path": "Template.Web\\Template.Web.csproj"
+        }
+    ],
+    "sources": [
+        {
+          "modifiers": [
+            {
+                "exclude": ["**/[Bb]in/**", "**/[Oo]bj/**", ".template.config/**/*", "**/*.lock.json", "**/.git/**", "**/.DS_Store/**", "**/*.db/**", "**/.vscode/**"]
+            }
+          ]
+        }
+      ]
+}
