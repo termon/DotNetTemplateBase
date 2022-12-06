@@ -1,14 +1,16 @@
 {
-    "author": "a.mccaughey@ulster.ac.uk",
+    "$schema": "http://json.schemastore.org/template",
+    "author": "a.mccaughey@gmail.com",
     "classifications": [ "Web","MVC","Api" ],
     "name": "Termon Base Template",
     "identity": "base.termoncs.com",   
     "shortName": "termonbase",           
     "tags": {
-        "language": "C#"                  
+        "language": "C#",
+        "type": "item"                  
     },
     "sourceName": "Template",      
-    "preferNameDirectory" : "true",
+    "preferNameDirectory" : true,
     "primaryOutputs": [
         {
             "path": "Template.Data\\Template.Data.csproj"

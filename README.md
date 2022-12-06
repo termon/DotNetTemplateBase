@@ -86,14 +86,18 @@ To install this solution as a template (template name is **termonbase**)
 
 2. Install the template so it can be used by ```dotnet new``` command. Use the path (i.e the directory location)to the cloned template directory without trailing '/'
 
-Linux/macOS
+    Linux/macOS
 
-```$ dotnet new -i /path/DotNetTemplateBase```
+    ```$ dotnet new install /path/DotNetTemplateBase```
 
-Windows
+    Windows
 
-```c: dotnet new -i c:\path\DotNetTemplateBase```
+    ```c: dotnet new install c:\path\DotNetTemplateBase```
 
 3. Once installed you can create a new project using this template
 
     ```dotnet new termonbase -o SolutionName```
+
+4. To uninstall a template (no longer can be used with dotnet new ).
+
+    ```dotnet new uninstall /path/DotNetTemplate```
