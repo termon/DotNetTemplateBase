@@ -78,7 +78,7 @@ app.UseAuthorization();
 
 ## Install Template
 
-To install this solution as a template (template name is **termonsimple**)
+To install this solution as a template (template name is **termonbase**)
 
 1. Download current version of the template
 
