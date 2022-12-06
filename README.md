@@ -4,7 +4,7 @@ This .NET project `Template` provides a solution containing separate Data, Test 
 
 ## Data Project
 
-The Data project encapsulates all data related concerns. It contains data entities, and provides an implementation of ```Template.Data.Services.IUserService``` using EntityFramework to handle user management (defaults to using Sqlite for portability across platforms). This can easily be changed to any supported EntityFramework database. The Service is the only element exposed from this project and consumers of this project simply need reference it to access its functionalty.
+The Data project encapsulates all data related concerns. It contains data entities, and provides an implementation of ```Template.Data.Services.IUserService``` using EntityFramework to handle user management (defaults to using Sqlite for portability across platforms). This can easily be changed to any supported EntityFramework database. The Services exposed by this project are used to encapsulate data management and consumers of this project simply need reference it to access its functionalty.
 
 Password hashing functionality added via the ```Template.Data.Security.Hasher``` class. This is used in the Data project UserService to hash the user password before storing in database.
 
