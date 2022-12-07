@@ -1,22 +1,23 @@
 
 using Xunit;
-using Microsoft.EntityFrameworkCore;
-
 using Template.Data.Models;
 using Template.Data.Services;
+
+using Microsoft.EntityFrameworkCore;
 using Template.Data.Repositories;
 
 namespace Template.Test
 {
     public class ServiceTests
     {
-        private IUserService service;
+        private readonly IUserService service;
 
         public ServiceTests()
         {
-            // configure the options for test database
-            var options = DatabaseContext.OptionsBuilder
+            // configure the data context options to use sqlite for testing
+            var options = DatabaseContext.OptionsBuilder                            
                             .UseSqlite("Filename=test.db")
+                            //.LogTo(Console.WriteLine)
                             .Options;
 
             // create service with new context
@@ -24,8 +25,8 @@ namespace Template.Test
             service.Initialise();
         }
 
-        [Fact]
-        public void EmptyDbShouldReturnNoUsers()
+         [Fact]
+        public void EmptyDb_ShouldReturn_NoUsers()
         {
             // act
             var users = service.GetUsers();
@@ -35,7 +36,7 @@ namespace Template.Test
         }
         
         [Fact]
-        public void AddingUsersShouldWork()
+        public void Adding_Users_ShouldWork()
         {
             // arrange
             service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
@@ -49,7 +50,7 @@ namespace Template.Test
         }
 
         [Fact]
-        public void UpdatingUserShouldWork()
+        public void Updating_User_ShouldWork()
         {
             // arrange
             var user = service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
@@ -65,7 +66,7 @@ namespace Template.Test
         }
 
         [Fact]
-        public void LoginWithValidCredentialsShouldWork()
+        public void Login_WithValidCredentials_ShouldWork()
         {
             // arrange
             service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
@@ -79,7 +80,7 @@ namespace Template.Test
         }
 
         [Fact]
-        public void LoginWithInvalidCredentialsShouldNotWork()
+        public void Login_WithInvalidCredentials_ShouldNotWork()
         {
             // arrange
             service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
@@ -90,6 +91,100 @@ namespace Template.Test
             // assert
             Assert.Null(user);
            
+        }
+
+        [Fact]
+        public void ForgotPasswordRequest_ForValidUser_ShouldGenerateToken()
+        {
+            // arrange
+            service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
+
+            // act      
+            var token = service.ForgotPassword("admin@mail.com");
+
+            // assert
+            Assert.NotNull(token);
+           
+        }
+
+        [Fact]
+        public void ForgotPasswordRequest_ForInValidUser_ShouldReturnNull()
+        {
+            // arrange
+          
+            // act      
+            var token = service.ForgotPassword("admin@mail.com");
+
+            // assert
+            Assert.Null(token);
+           
+        }
+
+        [Fact]
+        public void ResetPasswordRequest_WithValidUserAndToken_ShouldReturnUser()
+        {
+            // arrange
+            service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
+            var token = service.ForgotPassword("admin@mail.com");
+            
+            // act      
+            var user = service.ResetPassword("admin@mail.com", token, "password");
+        
+            // assert
+            Assert.NotNull(user);
+            Assert.Equal("password", user.Password);          
+        }
+
+        [Fact]
+        public void ResetPasswordRequest_WithValidUserAndExpiredToken_ShouldReturnNull()
+        {
+            // arrange
+            service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
+            var expiredToken = service.ForgotPassword("admin@mail.com");
+            var token = service.ForgotPassword("admin@mail.com");
+            
+            // act      
+            var user = service.ResetPassword("admin@mail.com", expiredToken, "password");
+        
+            // assert
+            Assert.Null(user);  
+        }
+
+        [Fact]
+        public void ResetPasswordRequest_WithInValidUserAndValidToken_ShouldReturnNull()
+        {
+            // arrange
+            service.AddUser("admin", "admin@mail.com", "admin", Role.admin );          
+            var token = service.ForgotPassword("admin@mail.com");
+            
+            // act      
+            var user = service.ResetPassword("unknown@mail.com", token, "password");
+        
+            // assert
+            Assert.Null(user);  
+        }
+
+        [Fact]
+        public void ResetPasswordRequests_WhenAllCompleted_ShouldExpireAllTokens()
+        {
+            // arrange
+            service.AddUser("admin", "admin@mail.com", "admin", Role.admin );       
+            service.AddUser("guest", "guest@mail.com", "guest", Role.guest );          
+
+            // create token and reset password - token then invalidated
+            var token1 = service.ForgotPassword("admin@mail.com");
+            var user1 = service.ResetPassword("admin@mail.com", token1, "password");
+
+            // create token and reset password - token then invalidated
+            var token2 = service.ForgotPassword("guest@mail.com");
+            var user2 = service.ResetPassword("guest@mail.com", token2, "password");
+         
+            // act  
+            // retrieve valid tokens 
+            var tokens = service.GetValidPasswordResetTokens();   
+
+            // assert
+            Assert.Empty(tokens);
         }
 
     }

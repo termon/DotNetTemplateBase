@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Template.Web.ViewModels
+namespace Template.Web.ViewModels.User
 {
     
-    public class UserLoginViewModel
+    public class LoginViewModel
     {       
         [Required]
         [EmailAddress]

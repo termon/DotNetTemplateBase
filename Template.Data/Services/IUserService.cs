@@ -3,8 +3,9 @@ using Template.Data.Models;
 
 namespace Template.Data.Services
 {
+
     // This interface describes the operations that a UserService class implementation should provide
-    public interface IUserService : IDisposable
+    public interface IUserService
     {
         // Initialise the repository - only to be used during development 
         void Initialise();
@@ -18,7 +19,9 @@ namespace Template.Data.Services
         User UpdateUser(User user);
         bool DeleteUser(int id);
         User Authenticate(string email, string password);
-       
+        string ForgotPassword(string email);
+        User ResetPassword(string email, string token, string password);
+        IList<string> GetValidPasswordResetTokens();
     }
-    
+
 }

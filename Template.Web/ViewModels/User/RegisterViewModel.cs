@@ -2,9 +2,10 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Template.Data.Models;
-namespace Template.Web.ViewModels
+
+namespace Template.Web.ViewModels.User
 {
-    public class UserRegisterViewModel
+    public class RegisterViewModel
     { 
         [Required]
         public string Name { get; set; }

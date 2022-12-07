@@ -13,26 +13,19 @@ namespace Template.Data.Repositories
     {
          // authentication store
         public DbSet<User> Users { get; set; }
-
+        public DbSet<ForgotPassword> ForgotPasswords { get; set; }
+        
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
         
-        // Configure the context to use Specified database. We are using 
-        // Sqlite database as it does not require any additional installations.
-        // Template configured to allow use of MySql, SqlServer and Postgres
-        // ideally connections strings should be stored in appsettings.json
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        // {
-        //     optionsBuilder                  
-        //         .UseSqlite("Filename=XXX.db")
-        //         //.UseMySql("server=localhost; port=3306; database=XXX; user=XXX; password=XXX", new MySqlServerVersion(new Version(8, 0, 31)))
-        //         //.UseNpgsql("host=localhost; port=5432; database=XXX; username=XXX; password=XXX")
-        //         //.UseSqlServer(@"Server=.\SQLExpress;Database=XXX;Trusted_Connection=True;");
-        //         .LogTo(Console.WriteLine, LogLevel.Information) // remove in production
-        //         .EnableSensitiveDataLogging()                   // remove in production
-        //         ;
-        // }
+        // Configure the context with logging - remove in production
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder                              
+                .LogTo(Console.WriteLine, LogLevel.Information) // remove in production
+                .EnableSensitiveDataLogging();                   // remove in production                
+        }
 
         public static DbContextOptionsBuilder<DatabaseContext> OptionsBuilder => new ();
 

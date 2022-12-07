@@ -5,35 +5,39 @@ using Microsoft.AspNetCore.Authentication;
 
 using Template.Data.Models;
 using Template.Data.Services;
-using Template.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Template.Data.Security;
+using Template.Web.ViewModels.User;
 
-/**
- *  User Management Controller providing registration and login functionality
- */
+
 namespace Template.Web.Controllers
 {
+
+    /**
+     *  User Management Controller
+     */
     public class UserController : BaseController
     {
-        private readonly IConfiguration _config;
+
+        private readonly IEmailService _mailer;
         private readonly IUserService _svc;
 
-        public UserController(IUserService svc, IConfiguration config)
+        public UserController(IUserService svc, IEmailService mailer)
         {        
-            _config = config;    
+            _mailer = mailer;
             _svc = svc;
         }
 
-
+        // HTTP GET - Display Login page
         public IActionResult Login()
         {
             return View();
         }
 
+        // HTTP POST - Login action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([Bind("Email,Password")] UserLoginViewModel m)
+        public async Task<IActionResult> Login([Bind("Email,Password")] LoginViewModel m)
         {
             var user = _svc.Authenticate(m.Email, m.Password);
             // check if login was unsuccessful and add validation errors
@@ -52,14 +56,16 @@ namespace Template.Web.Controllers
             return Redirect("/");
         }
 
+        // HTTP GET - Display Register page
         public IActionResult Register()
         {
             return View();
         }
 
+        // HTTP POST - Register action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register([Bind("Name,Email,Password,PasswordConfirm,Role")] UserRegisterViewModel m)       
+        public IActionResult Register([Bind("Name,Email,Password,PasswordConfirm,Role")] RegisterViewModel m)       
         {
             if (!ModelState.IsValid)
             {
@@ -67,6 +73,7 @@ namespace Template.Web.Controllers
             }
             // add user via service
             var user = _svc.AddUser(m.Name, m.Email,m.Password, m.Role);
+            
             // check if error adding user and display warning
             if (user == null) {
                 Alert("There was a problem Registering. Please try again", AlertType.warning);
@@ -74,28 +81,29 @@ namespace Template.Web.Controllers
             }
 
             Alert("Successfully Registered. Now login", AlertType.info);
-
             return RedirectToAction(nameof(Login));
         }
 
+        // HTTP GET - Display Update profile page
         [Authorize]
         public IActionResult UpdateProfile()
         {
            // use BaseClass helper method to retrieve Id of signed in user 
             var user = _svc.GetUser(User.GetSignedInUserId());
-            var userViewModel = new UserProfileViewModel { 
+            var profileViewModel = new ProfileViewModel { 
                 Id = user.Id, 
                 Name = user.Name, 
                 Email = user.Email,                 
                 Role = user.Role
             };
-            return View(userViewModel);
+            return View(profileViewModel);
         }
 
+        // HTTP POST - Update profile action
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateProfile([Bind("Id,Name,Email,Role")] UserProfileViewModel m)       
+        public async Task<IActionResult> UpdateProfile([Bind("Id,Name,Email,Role")] ProfileViewModel m)       
         {
             var user = _svc.GetUser(m.Id);
             // check if form is invalid and redisplay
@@ -124,13 +132,14 @@ namespace Template.Web.Controllers
             return RedirectToAction("Index","Home");
         }
 
-        // Change Password
+        
+        // HTTP GET - Display update password page
         [Authorize]
         public IActionResult UpdatePassword()
         {
             // use BaseClass helper method to retrieve Id of signed in user 
             var user = _svc.GetUser(User.GetSignedInUserId());
-            var passwordViewModel = new UserPasswordViewModel { 
+            var passwordViewModel = new PasswordViewModel { 
                 Id = user.Id, 
                 Password = user.Password, 
                 PasswordConfirm = user.Password, 
@@ -138,10 +147,11 @@ namespace Template.Web.Controllers
             return View(passwordViewModel);
         }
 
+        // HTTP POST - Update Password action
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdatePassword([Bind("Id,OldPassword,Password,PasswordConfirm")] UserPasswordViewModel m)       
+        public async Task<IActionResult> UpdatePassword([Bind("Id,OldPassword,Password,PasswordConfirm")] PasswordViewModel m)       
         {
             var user = _svc.GetUser(m.Id);
             if (!ModelState.IsValid || user == null)
@@ -164,6 +174,8 @@ namespace Template.Web.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        // HTTP POST - Logout action
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -171,7 +183,70 @@ namespace Template.Web.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        // Return not authorised and not authenticated views
+
+        // HTTP GET - Display Forgot password page
+        public IActionResult ForgotPassword()
+        {
+            return View();            
+        }
+
+        // HTTP POST - Forgot password action
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ForgotPassword([Bind("Email")] ForgotPasswordViewModel m)
+        {           
+            var token = _svc.ForgotPassword(m.Email);
+            if (token == null)
+            {
+                // No such account. Alert only for testing
+                Alert("No account found", AlertType.warning);
+                return RedirectToAction(nameof(Login));
+            }
+            
+            // build reset password url and email html message
+            var url = $"{Request.Scheme}://{Request.Host}/User/ResetPassword?token={token}&email={m.Email}";
+            var message = @$" 
+                <h3>Password Reset</h3>
+                <a href='{url}'>
+                   {url}
+                </a>
+            ";
+            
+            // send email containing reset token
+            if (!_mailer.SendMail( "Password Reset Request", message, m.Email ))
+            {
+                Alert("There was a problem sending a password reset email", AlertType.warning);
+                return RedirectToAction(nameof(ForgotPassword));    
+            }
+            
+            Alert("Password Reset Token sent to your registered email account", AlertType.info);
+            return RedirectToAction(nameof(ResetPassword));
+        }
+
+        // HTTP GET - Display Reset password page
+        public IActionResult ResetPassword(string token, string email)
+        {
+            return View();            
+        }
+
+        // HTTP POST - ResetPassword action
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResetPassword([Bind("Email,Password,Token")] ResetPasswordViewModel m)
+        {
+            // verify reset request
+            var user = _svc.ResetPassword(m.Email, m.Token, m.Password);
+            if (user == null)
+            {
+                Alert("Invalid Password Reset Request", AlertType.warning);
+                return RedirectToAction(nameof(ResetPassword));         
+            }
+
+            Alert("Password reset successfully", AlertType.success);
+            return RedirectToAction(nameof(Login));          
+        }
+        
+        // HTTP GET - Display not authorised and not authenticated pages
         public IActionResult ErrorNotAuthorised() => View();
         public IActionResult ErrorNotAuthenticated() => View();
 

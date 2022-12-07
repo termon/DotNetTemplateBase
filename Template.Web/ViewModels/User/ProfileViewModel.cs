@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Template.Data.Models;
 
-namespace Template.Web.ViewModels
+namespace Template.Web.ViewModels.User
 {
-    public class UserProfileViewModel
+    public class ProfileViewModel
     {
         public int Id { get; set; }
 

@@ -22,6 +22,7 @@ builder.Services.AddDbContext<DatabaseContext>( options => {
 
 // Add UserService to DI   
 builder.Services.AddTransient<IUserService,UserServiceDb>();
+builder.Services.AddTransient<IEmailService,SmtpMailService>();
 
 // ** Required to enable asp-authorize Taghelper **            
 builder.Services.AddHttpContextAccessor(); 

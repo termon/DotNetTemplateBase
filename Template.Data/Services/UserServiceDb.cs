@@ -120,11 +120,51 @@ namespace Template.Data.Services
             //return (user != null && user.Password == password ) ? user: null;
         }
 
-        public void Dispose()
+         public string ForgotPassword(string email)
         {
-            this.ctx.Dispose();
-            this.ctx = null;
-            Console.WriteLine("Disposing of UserService");
+            var user = ctx.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null) {
+                // invalidate any previous tokens
+                ctx.ForgotPasswords
+                    .Where(t => t.Email == email && t.ExpiresAt > DateTime.Now).ToList()
+                    .ForEach(t => t.ExpiresAt = DateTime.Now);
+                var f = new ForgotPassword { Email = email };
+                ctx.ForgotPasswords.Add(f);
+                ctx.SaveChanges();
+                return f.Token;
+            }
+            return null;
         }
+        
+        public User ResetPassword(string email, string token, string password)
+        {
+            // find user by email
+            var user = ctx.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) 
+            {
+                return null; // user not found
+            }
+            // find valid reset token for user
+            var reset = ctx.ForgotPasswords
+                           .FirstOrDefault(t => t.Email == email && t.Token == token && t.ExpiresAt > DateTime.Now);
+            if (reset == null) 
+            {
+                return null; // reset token invalid
+            }
+
+            // valid token and user so update password, invalidate the token and return the user           
+            reset.ExpiresAt = DateTime.Now;
+            user.Password = Hasher.CalculateHash(password);
+            ctx.SaveChanges();
+            return user;
+        }
+
+        public IList<string> GetValidPasswordResetTokens() {
+            // return non expired tokens
+            return ctx.ForgotPasswords.Where(t => t.ExpiresAt > DateTime.Now)
+                                      .Select(t => t.Token)
+                                      .ToList();
+        }
+   
     }
 }
