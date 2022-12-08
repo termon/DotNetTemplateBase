@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Template.Data.Services
 {
-    public class SmtpMailService : IEmailService
+    public class SmtpMailService : IMailService
     {
         private readonly string _from;
         private readonly string _host;

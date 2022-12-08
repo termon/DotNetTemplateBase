@@ -15,14 +15,11 @@ builder.Services.AddDbContext<DatabaseContext>( options => {
     //options.UseMySql(builder.Configuration.GetConnectionString("MySql"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySql")));
     //options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
     //options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
-    options.LogTo(Console.WriteLine, LogLevel.Information); // remove in production
-    options.EnableSensitiveDataLogging();                   // remove in production
-    
 });  
 
 // Add UserService to DI   
 builder.Services.AddTransient<IUserService,UserServiceDb>();
-builder.Services.AddTransient<IEmailService,SmtpMailService>();
+builder.Services.AddTransient<IMailService,SmtpMailService>();
 
 // ** Required to enable asp-authorize Taghelper **            
 builder.Services.AddHttpContextAccessor(); 

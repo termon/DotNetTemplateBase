@@ -9,21 +9,20 @@ using Microsoft.AspNetCore.Authorization;
 using Template.Data.Security;
 using Template.Web.ViewModels.User;
 
-
+/**
+ *  User Management Controller
+ */
 namespace Template.Web.Controllers
 {
-
-    /**
-     *  User Management Controller
-     */
     public class UserController : BaseController
     {
-
-        private readonly IEmailService _mailer;
+        private readonly IConfiguration _config;
+        private readonly IMailService _mailer;
         private readonly IUserService _svc;
 
-        public UserController(IUserService svc, IEmailService mailer)
+        public UserController(IUserService svc, IConfiguration config, IMailService mailer)
         {        
+            _config = config;
             _mailer = mailer;
             _svc = svc;
         }

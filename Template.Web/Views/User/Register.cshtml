@@ -1,50 +1,57 @@
 @model RegisterViewModel
 
-<div class="card shadow p-4 mt-4">
+<div class="card shadow p-4 mt-5 mx-auto w-75">
+    <div class="position-absolute top-0 start-50 translate-middle rounded-circle bg-dark p-2">
+        <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+            <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+        </svg>
+    </div>
 
-    <h3 class="mb-3">Register</h3>
+    <h3 class="my-3 mx-auto">Register</h3>
 
     <form asp-action="Register" method="post">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group">
-            <label asp-for="Name" class="control-label"><i class="bi-person-fill"></i> Name</label>
+        <div class="mt-3">
+            <label asp-for="Name" class="form-label"><i class="bi-person-fill"></i> Name</label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-        <div class="form-group mt-3">
-            <label asp-for="Email" class="control-label"><i class="bi-envelope-fill"></i> Email</label>
+        <div class="mt-3">
+            <label asp-for="Email" class="form-label"><i class="bi-envelope-fill"></i> Email</label>
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="row">
-            <div class="col form-group mt-3">
-                <label asp-for="Password" class="control-label"><i class="bi-shield-lock-fill"></i> Password</label>
+            <div class="col mt-3">
+                <label asp-for="Password" class="form-label"><i class="bi-shield-lock-fill"></i> Password</label>
                 <input type="password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <div class="col form-group mt-3">
-                <label asp-for="PasswordConfirm" class="control-label">Password Confirm</label>
+            <div class="col mt-3">
+                <label asp-for="PasswordConfirm" class="form-label">Password Confirm</label>
                 <input type="password" asp-for="PasswordConfirm" class="form-control" />
                 <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="form-group mt-3">
-            <label asp-for="Role" class="control-label"><i class="bi-person-badge-fill"></i> Role</label>
+        <div class="mt-3">
+            <label asp-for="Role" class="form-label"><i class="bi-person-badge-fill"></i> Role</label>
             <select asp-for="Role" asp-items="Html.GetEnumSelectList<Role>()" class="form-control">
                 <option>Select Role</option>
             </select>
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
 
-        <div class="form-group mt-3">
+         <div class="mt-3">
             <input type="submit" value="Register" class="btn btn-primary" />
-            <a class="btn btn-secondary" asp-controller="User" asp-action="Login">Cancel</a>
+            @* <a class="btn btn-secondary" asp-controller="User" asp-action="Login">Cancel</a> *@
+            <a class="btn btn-link ms-3" asp-controller="User" asp-action="Login">Already have an account?</a>
         </div>
 
     </form>

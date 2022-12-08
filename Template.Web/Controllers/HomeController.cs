@@ -24,7 +24,7 @@ namespace Template.Web.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles="admin,manager")]
         public IActionResult Secure()
         {
             return View();
