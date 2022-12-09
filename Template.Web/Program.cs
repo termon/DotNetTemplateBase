@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ** Add Cookie Authentication via extension method **
+// Configure Authentication / Authorisation via extension methods 
 builder.Services.AddCookieAuthentication();
+//builder.Services.AddPolicyAuthorisation();
 
 builder.Services.AddDbContext<DatabaseContext>( options => {
     // Configure connection string for selected database in appsettings.json

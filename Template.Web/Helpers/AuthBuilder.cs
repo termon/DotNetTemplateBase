@@ -1,11 +1,6 @@
-using System;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Template.Data.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace Template.Web
 {

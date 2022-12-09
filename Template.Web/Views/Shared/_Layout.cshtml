@@ -11,23 +11,26 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-lg rounded mb-3">
+        @* <nav class="navbar navbar-expand-md navbar-light bg-white shadow-lg rounded mb-3"> *@
             <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Sample.Web</a>
+                <a class="navbar-brand" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-exclude" viewBox="0 0 16 16">
+                        <path d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm12 2H5a1 1 0 0 0-1 1v7h7a1 1 0 0 0 1-1V4z"/>
+                    </svg>
+                    <span>Template</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex" id="navbarNavAltMarkup">
-                                       
-                    <div class="navbar-nav flex-grow-1">
-                        <a class="nav-link text-dark active" asp-controller="Home" asp-action="Index">Home</a>
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>    
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Secure">Secure</a>
-                    </div>         
-
-                    <!-- AMC The login partial is added here for authentication flex-sm-row-reverse-->
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link"  asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link"  asp-controller="Home" asp-action="Privacy">Privacy</a>    
+                        <a class="nav-link"  asp-controller="Home" asp-action="Secure">Secure</a>                        
+                    </div>
+                    <!-- AMC The login partial is added here for authentication -->
                     <partial name="_LoginPartial" />      
-                    
                 </div>
             </div>
         </nav>
@@ -45,7 +48,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - Sample.Web - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Template.Web - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

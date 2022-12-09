@@ -17,6 +17,7 @@ namespace Template.Web
     /// </summary>
     [HtmlTargetElement(Attributes = "asp-authorize")]
     [HtmlTargetElement(Attributes = "asp-roles")] // AMC - added to remove need for asp-authorize when asp-roles enabled
+    [HtmlTargetElement(Attributes = "asp-policy")]
     [HtmlTargetElement(Attributes = "asp-authorize,asp-policy")]
     [HtmlTargetElement(Attributes = "asp-authorize,asp-roles")]
     [HtmlTargetElement(Attributes = "asp-authorize,asp-authentication-schemes")]

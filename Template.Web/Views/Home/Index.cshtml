@@ -8,14 +8,18 @@
 <div asp-authorize class="card">
     <div class="card-body">
         <h4 class="card-title">Authorized</h4>
-        <p class="card-text">This content is only visible if you are Authorized.</p>
+        <p class="card-text">This content is only visible if you are <span class="text-success">Authorized.</span></p>
 
         <!-- p elements are only rendered when user has specified role(s) -->
-        <p asp-roles="admin">This content is only visible if you are authenticated and have the <span class="text-primary">admin</span> role</p>
+        <p asp-roles="admin">This content is only visible if you are authenticated and have the <span class="text-danger">admin</span> role</p>
         <p asp-roles="guest">This content is only visible if you are authenticated and have the <span class="text-danger">guest</span> role</p>
         <p asp-roles="manager">This content is only visible if you are authenticated and have the <span class="text-danger">manager</span> role</p>
         <p asp-roles="admin,manager">This content is visible if you have the <span class="text-danger">admin or manager</span> roles</p>
-
+        
+        <!-- uncomment AddPolicyAuthorisation() in Program.cs to access RolePolicy in example below -->
+        <!--
+            <p asp-policy="RolePolicy">This content is visible if you have the <span class="text-danger">RolePolicy</span></p>
+        -->
     </div>
 </div>
 
