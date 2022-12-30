@@ -1,0 +1,20 @@
+<!-- model contains array of breadcrumb tuples (link,crumb) -->
+@model IList<(string,string)>
+
+@if (Model != null ) {
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      @foreach(var (link,crumb) in Model)
+      {
+          @if (link == null || link.Length == 0)
+          {
+              <li class="breadcrumb-item active" aria-current="page">@crumb</li>
+          }
+          else
+          {
+              <li class="breadcrumb-item"><a href="@link">@crumb</a></li>
+          }
+      }
+    </ol>
+  </nav>
+}

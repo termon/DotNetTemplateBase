@@ -40,6 +40,8 @@ builder.Services.AddTransient<IUserService,UserServiceDb>();
 builder.Services.AddTransient<IMailService,SmtpMailService>();
 ```
 
+* Database ConnectionString and MailSettings should be configured as required in ```appsettings.json```*
+
 ### Identity
 
 The project provides extension methods to enable:
@@ -86,6 +88,17 @@ app.UseAuthorization();
     b. Conditional Display Tag
 
     * ```<p asp-condtion="@some_boolean_expression">Only displayed if the condition is true</p>```
+
+4. A Breadcrumbs partial view is contained in ```Views/Shared/_Breadcrumbs.cshtml``` and can be added to a View as shown in example below. The the model parameter is an array of tuples containing the route and breadcrumb.
+
+    ```c#
+    <partial name="_BreadCrumbs" model=@(new [] {
+        ("/","Home"),
+        ("/student","Students"),
+        ($"/student/details/{Model.Id}",$"{Model.Id}"),
+        ("","Details")
+    }) />
+    ```
 
 ## Install Template
 

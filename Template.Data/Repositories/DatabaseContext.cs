@@ -22,9 +22,8 @@ namespace Template.Data.Repositories
         // Configure the context with logging - remove in production
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder                              
-                .LogTo(Console.WriteLine, LogLevel.Information) // remove in production
-                .EnableSensitiveDataLogging();                   // remove in production                
+            // remove in production 
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();               
         }
 
         public static DbContextOptionsBuilder<DatabaseContext> OptionsBuilder => new ();

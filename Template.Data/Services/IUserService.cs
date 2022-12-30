@@ -12,6 +12,7 @@ namespace Template.Data.Services
 
         // ---------------- User Management --------------
         IList<User> GetUsers();
+        Paged<User> GetUsers(int page, int size);
         User GetUser(int id);
         User GetUserByEmail(string email);
         bool IsEmailAvailable(string email, int userId);

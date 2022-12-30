@@ -1,0 +1,35 @@
+﻿@model Paged<User>
+
+<h3 class="mb-3">User List</h3>
+  
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>   
+            <th>Action</th>           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var u in Model.Data) {
+            <tr>
+                <td>@u.Id</td>
+                <td>@u.Name</td>
+                <td>@u.Email</td>
+                <td>@u.Role</td>  
+                <td>
+                    <a asp-action="Update" asp-route-id="@u.Id">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>                    
+                </td>                
+            </tr>
+        }        
+    </tbody>
+</table>
+
+<vc:paginator url=@Url.Action("Index") rows=@Model.TotalRows page=@Model.CurrentPage size=@Model.PageSize  />
+
+
+

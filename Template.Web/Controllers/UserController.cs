@@ -27,6 +27,14 @@ namespace Template.Web.Controllers
             _svc = svc;
         }
 
+        // HTTP GET - Display Paged List of Users
+        [Authorize]
+        public ActionResult Index(int page=1, int size=10)
+        {
+            var paged = _svc.GetUsers(page, size);
+            return View(paged);
+        }
+
         // HTTP GET - Display Login page
         public IActionResult Login()
         {
@@ -131,6 +139,50 @@ namespace Template.Web.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        // HTTP GET - Allow admin to update a User
+        [Authorize(Roles="admin")]
+        public IActionResult Update(int id)
+        {
+           // retrieve user 
+            var user = _svc.GetUser(id);
+            var profileViewModel = new ProfileViewModel { 
+                Id = user.Id, 
+                Name = user.Name, 
+                Email = user.Email,                 
+                Role = user.Role
+            };
+            return View(profileViewModel);
+        }
+
+        // HTTP POST - Update User action
+        [Authorize(Roles="admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update([Bind("Id,Name,Email,Role")] ProfileViewModel m)       
+        {
+            var user = _svc.GetUser(m.Id);
+            // check if form is invalid and redisplay
+            if (!ModelState.IsValid || user == null)
+            {
+                return View(m);
+            } 
+
+            // update user details and call service
+            user.Name = m.Name;
+            user.Email = m.Email;
+            user.Role = m.Role;        
+            var updated = _svc.UpdateUser(user);
+
+            // check if error updating service
+            if (updated == null) {
+                Alert("There was a problem Updating. Please try again", AlertType.warning);
+                return View(m);
+            }
+
+            Alert("Successfully Updated User Account Details", AlertType.info);                       
+
+            return RedirectToAction("Index","User");
+        }
         
         // HTTP GET - Display update password page
         [Authorize]

@@ -27,7 +27,8 @@
                     <div class="navbar-nav">
                         <a class="nav-link"  asp-controller="Home" asp-action="Index">Home</a>
                         <a class="nav-link"  asp-controller="Home" asp-action="Privacy">Privacy</a>    
-                        <a class="nav-link"  asp-controller="Home" asp-action="Secure">Secure</a>                        
+                        <a class="nav-link"  asp-controller="Home" asp-action="Secure">Secure</a>   
+                        <a class="nav-link"  asp-controller="User" asp-action="Index" asp-roles="admin">Users</a>                        
                     </div>
                     <!-- AMC The login partial is added here for authentication -->
                     <partial name="_LoginPartial" />      

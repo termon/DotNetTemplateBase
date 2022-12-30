@@ -29,6 +29,20 @@ namespace Template.Data.Services
             return ctx.Users.ToList();
         }
 
+        // retrieve paged list of users
+        public Paged<User> GetUsers(int page, int size)
+        {
+            var totalRows = ctx.Users.Count();           
+            var data = ctx.Users.OrderBy(u => u.Id).Skip((page-1)*size).Take(size).ToList();
+            var paged = new Paged<User> {
+                Data = data,
+                TotalRows = totalRows,
+                PageSize = size,
+                CurrentPage = page     
+            };
+            return paged;
+        }
+
         // Retrive User by Id 
         public User GetUser(int id)
         {
