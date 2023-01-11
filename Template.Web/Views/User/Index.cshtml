@@ -5,9 +5,37 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
+            <th>
+                Id
+                <a asp-action="Index" 
+                    asp-route-order="id" 
+                    asp-route-direction=@Model.Direction 
+                    asp-route-page=@Model.CurrentPage 
+                    asp-route-size=@Model.PageSize >
+                        <vc:sort-order field="id" orderby=@Model.OrderBy direction=@Model.Direction />  
+                </a>  
+
+            </th>
+            <th>
+                Name
+                <a asp-action="Index" 
+                    asp-route-order="name" 
+                    asp-route-direction=@Model.Direction 
+                    asp-route-page=@Model.CurrentPage 
+                    asp-route-size=@Model.PageSize >
+                    <vc:sort-order field="name" orderby=@Model.OrderBy direction=@Model.Direction />  
+                </a>  
+            </th>
+            <th>
+                Email
+                <a asp-action="Index" 
+                    asp-route-order="email" 
+                    asp-route-direction=@Model.Direction 
+                    asp-route-page=@Model.CurrentPage 
+                    asp-route-size=@Model.PageSize >
+                    <vc:sort-order field="email" orderby=@Model.OrderBy direction=@Model.Direction />  
+                </a>      
+            </th>
             <th>Role</th>   
             <th>Action</th>           
         </tr>
@@ -29,7 +57,7 @@
     </tbody>
 </table>
 
-<vc:paginator url=@Url.Action("Index") rows=@Model.TotalRows page=@Model.CurrentPage size=@Model.PageSize  />
+<vc:paginator action="Index" rows=@Model.TotalRows pages=@Model.TotalPages current=@Model.CurrentPage size=@Model.PageSize  />
 
 
 

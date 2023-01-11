@@ -1,22 +1,18 @@
 @model Template.Web.Views.Shared.Components.PaginatorProps
 
-@{
-    var last = Model.LastPage;
-    var first = Model.FirstPage;
-
-
-}
 <div class="d-flex align-items-start">
-    <div class="d-flex align-items-center">
-        <span>Items</span>
-        <select asp-for="PageSize" class="form-select mx-3" onchange="window.location.href=`@Url.Action("Index")?page=1&size=${this.value}`"> 
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-    </div>
-
+    <form asp-action="Index" method="GET">
+        <div class="d-flex align-items-center">
+            <span>Items</span>               
+            <select name="size" asp-for="PageSize" class="form-select mx-3" onchange="this.form.submit()">               
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+    </form>  
+   
     <nav aria-label="table pagination">
         
         <ul class="pagination">

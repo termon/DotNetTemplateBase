@@ -29,9 +29,13 @@ namespace Template.Web.Controllers
 
         // HTTP GET - Display Paged List of Users
         [Authorize]
-        public ActionResult Index(int page=1, int size=10)
+        public ActionResult Index(int page=1, int size=20, string order="id", string direction="asc")
         {
-            var paged = _svc.GetUsers(page, size);
+            var paged = _svc.GetUsers(page,size,order,direction);
+
+            // invert sort order direction for next query
+            paged.Direction = direction.ToLower() == "desc" ? "asc" : "desc";
+
             return View(paged);
         }
 

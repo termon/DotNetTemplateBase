@@ -30,15 +30,34 @@ namespace Template.Data.Services
         }
 
         // retrieve paged list of users
-        public Paged<User> GetUsers(int page, int size)
+        public Paged<User> GetUsers(int page, int size,string orderBy, string direction)
         {
-            var totalRows = ctx.Users.Count();           
-            var data = ctx.Users.OrderBy(u => u.Id).Skip((page-1)*size).Take(size).ToList();
+            direction = direction.ToLower();
+            orderBy = orderBy.ToLower();
+
+            var query = (orderBy,direction) switch
+            {
+                ("id","asc")     => ctx.Users.OrderBy(r => r.Id),
+                ("id","desc")    => ctx.Users.OrderByDescending(r => r.Id),
+                ("name","asc")   => ctx.Users.OrderBy(r => r.Name),
+                ("name","desc")  => ctx.Users.OrderByDescending(r => r.Name),
+                ("email","asc")  => ctx.Users.OrderBy(r => r.Email),
+                ("email","desc") => ctx.Users.OrderByDescending(r => r.Email),
+                _                => ctx.Users.OrderBy(r => r.Id)
+            };
+       
+            // determine total avilable rows
+            var totalRows = query.Count(); 
+            // slice page required         
+            var data = query.Skip((page-1)*size).Take(size).ToList();
+            // build paged result
             var paged = new Paged<User> {
                 Data = data,
                 TotalRows = totalRows,
                 PageSize = size,
-                CurrentPage = page     
+                CurrentPage = page,
+                OrderBy = orderBy,
+                Direction = direction
             };
             return paged;
         }
