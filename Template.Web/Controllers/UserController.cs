@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 
-using Template.Data.Models;
+using Template.Data.Entities;
 using Template.Data.Services;
 using Microsoft.AspNetCore.Authorization;
 using Template.Data.Security;
-using Template.Web.ViewModels.User;
+using Template.Web.Models.User;
 
 /**
  *  User Management Controller

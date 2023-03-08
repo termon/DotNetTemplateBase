@@ -1,6 +1,6 @@
 
 using Xunit;
-using Template.Data.Models;
+using Template.Data.Entities;
 using Template.Data.Services;
 
 using Microsoft.EntityFrameworkCore;

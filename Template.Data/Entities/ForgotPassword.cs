@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Template.Data.Models
+namespace Template.Data.Entities
 {
    
     public class ForgotPassword

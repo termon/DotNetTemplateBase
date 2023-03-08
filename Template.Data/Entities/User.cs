@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Template.Data.Models
+namespace Template.Data.Entities
 {
     // Add User roles relevant to your application
     public enum Role { admin, manager, guest }

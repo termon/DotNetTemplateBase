@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Template.Web.ViewModels;
+using Template.Web.Models;
 
 namespace Template.Web.Controllers
 {

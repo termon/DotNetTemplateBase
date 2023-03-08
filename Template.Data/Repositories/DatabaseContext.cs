@@ -2,8 +2,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-// import the Models (representing structure of tables in database)
-using Template.Data.Models; 
+// import the Entities (database models representing structure of tables in database)
+using Template.Data.Entities; 
 
 namespace Template.Data.Repositories
 {

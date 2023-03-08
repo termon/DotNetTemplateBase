@@ -1,4 +1,4 @@
-namespace Template.Data.Models;
+namespace Template.Data.Entities;
 
 public class Paged<T> {        
     public List<T> Data { get; set;}

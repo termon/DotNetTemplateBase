@@ -1,5 +1,5 @@
 ﻿
-using Template.Data.Models;
+using Template.Data.Entities;
 
 namespace Template.Data.Services
 {

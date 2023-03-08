@@ -1,5 +1,5 @@
 
-using Template.Data.Models;
+using Template.Data.Entities;
 using Template.Data.Services;
 using Template.Data.Security;
 using Template.Data.Repositories;
