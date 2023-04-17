@@ -31,11 +31,7 @@ namespace Template.Web.Controllers
         [Authorize]
         public ActionResult Index(int page=1, int size=20, string order="id", string direction="asc")
         {
-            var paged = _svc.GetUsers(page,size,order,direction);
-
-            // invert sort order direction for next query
-            paged.Direction = direction.ToLower() == "desc" ? "asc" : "desc";
-
+            var paged = _svc.GetUsers(page,size,order,direction);      
             return View(paged);
         }
 

@@ -4,7 +4,7 @@ This .NET project ```Template``` provides a solution containing separate Data, T
 
 ## Data Project
 
-The Data project encapsulates all data related concerns and provides data models and implementations of following services:
+The Data project encapsulates all data related concerns and provides data entity (database) and implementations of following services:
 
 1. An implementation of ```Template.Data.Services.IUserService``` using EntityFramework to handle data storage/retrieval is provided via ```Template.Data.Services.UserServiceDb```.
 2. An implementation of ```Template.Data.Services.IMailService``` using the .NET Smtp Mail provider to handle email sending is provided via ```Template.Data.Services.SmtpMailService```.
