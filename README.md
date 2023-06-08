@@ -9,7 +9,9 @@ The Data project encapsulates all data related concerns and provides data entity
 1. An implementation of ```Template.Data.Services.IUserService``` using EntityFramework to handle data storage/retrieval is provided via ```Template.Data.Services.UserServiceDb```.
 2. An implementation of ```Template.Data.Services.IMailService``` using the .NET Smtp Mail provider to handle email sending is provided via ```Template.Data.Services.SmtpMailService```.
 
-Password hashing functionality added via the ```Template.Data.Security.Hasher``` class. This is used in the Data project ```UserServiceDb``` to hash the user password before storing in database.
+Password hashing functionality is added via the ```Template.Data.Security.Hasher``` class. This is used in the Data project ```UserServiceDb``` to hash the user password before storing in database.
+
+Data pagination is supported via the ```Paged<T>``` entity type. To create paged data from a query we can use the ```ToPaged(...)``` extension method. See ```UserService.GetUsers(....)``` method for a usage example. 
 
 ## Test Project
 
@@ -99,6 +101,27 @@ app.UseAuthorization();
         ("","Details")
     }) />
     ```
+
+5. View components are provided for ordering and paging of tabular data sets.  
+ 
+	* The paginator component can be used to display a UI element to navigate through pages of a model containing a ```Paged<T>``` dataset.
+
+	```c#
+	<vc:paginator action="Index" rows=@Model.TotalRows 
+                  pages=@Model.TotalPages 
+                  current=@Model.CurrentPage 
+                  size=@Model.PageSize  />
+    ```
+
+ 
+    * An order component can be used to provide ordering to table columns
+
+    ```c#
+    <vc:sort-order field="id" orderby=@Model.OrderBy 
+                              direction=@Model.Direction />
+    ``` 
+
+    An example of usage for both can be found in the ```UserController.Index``` action and view ```User/Index.cshtml```.
 
 ## Install Template
 
