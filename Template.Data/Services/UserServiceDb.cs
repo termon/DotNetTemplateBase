@@ -9,7 +9,7 @@ namespace Template.Data.Services
 {
     public class UserServiceDb : IUserService
     {
-        private DatabaseContext  ctx;
+        private readonly DatabaseContext  ctx;
       
         public UserServiceDb(DatabaseContext ctx) 
         {

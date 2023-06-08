@@ -16,7 +16,6 @@ public class SmtpMailService : IMailService
     // appsettings.json section MailSettings contains mail configuration
     public SmtpMailService(IConfiguration config)
     {
-        var section = config.GetSection("MailSettings");
         _from = config.GetSection("MailSettings")["FromAddress"] ?? string.Empty; //.GetValue<string>("FromAddress");
         _host = config.GetSection("MailSettings")["Host"] ?? string.Empty;
         _port = Int32.Parse( (config.GetSection("MailSettings")["Port"] ?? "0"));

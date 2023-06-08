@@ -275,7 +275,7 @@ namespace Template.Web.Controllers
         }
 
         // HTTP GET - Display Reset password page
-        public IActionResult ResetPassword(string token, string email)
+        public IActionResult ResetPassword()
         {
             return View();            
         }

@@ -41,7 +41,7 @@ public class PaginatorViewComponent : ViewComponent
     }
 }
 
-public record Page(int pageNo, string url);
+public record Page(int PageNo, string Url);
 
 public class PaginatorProps 
 {

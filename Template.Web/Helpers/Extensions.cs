@@ -58,11 +58,9 @@ public static class Extensions
     {
         if (user != null && user.Identity != null && user.Identity.IsAuthenticated) {
             // id stored as a string in the Sid claim - convert to an int and return
-            Claim sid = user.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Sid);
-            if (sid == null) {
-                throw new KeyNotFoundException("Sid Claim is not found in the identity");
-            } 
-            try {
+            Claim sid = user.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Sid) ?? throw new KeyNotFoundException("Sid Claim is not found in the identity");
+            try
+            {
                 return Int32.Parse(sid.Value);  
             } catch (FormatException) {
                 throw new KeyNotFoundException("Sid Claim value is invalid - not an integer");  
