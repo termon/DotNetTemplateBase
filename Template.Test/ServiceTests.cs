@@ -103,8 +103,8 @@ namespace Template.Test
             var updatedUser = service.UpdateUser(user);
 
             // assert
-            Assert.Equal("administrator", user.Name);
-            Assert.Equal("admin@mail.com", user.Email);
+            Assert.Equal("administrator", updatedUser.Name);
+            Assert.Equal("admin@mail.com", updatedUser.Email);
         }
 
         [Fact]
@@ -183,7 +183,7 @@ namespace Template.Test
             // arrange
             service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
             var expiredToken = service.ForgotPassword("admin@mail.com");
-            var token = service.ForgotPassword("admin@mail.com");
+            service.ForgotPassword("admin@mail.com");
             
             // act      
             var user = service.ResetPassword("admin@mail.com", expiredToken, "password");
@@ -215,11 +215,11 @@ namespace Template.Test
 
             // create token and reset password - token then invalidated
             var token1 = service.ForgotPassword("admin@mail.com");
-            var user1 = service.ResetPassword("admin@mail.com", token1, "password");
+            service.ResetPassword("admin@mail.com", token1, "password");
 
             // create token and reset password - token then invalidated
             var token2 = service.ForgotPassword("guest@mail.com");
-            var user2 = service.ResetPassword("guest@mail.com", token2, "password");
+            service.ResetPassword("guest@mail.com", token2, "password");
          
             // act  
             // retrieve valid tokens 
