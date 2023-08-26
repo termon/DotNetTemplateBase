@@ -1,0 +1,80 @@
+ <!-- replace navbar-dark bg-dark with navbar-light bg-white to change to light navbar -->
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg rounded mb-3">
+       
+  <div class="container-fluid">
+
+    <!-- change project title here -->
+    <a class="navbar-brand" href="#">TemplateBase</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      
+      <!-- LEFT SIDE NAVBAR ITEMS me-auto pushes to left -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <!-- individual nav item -->
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>   
+        </li>
+
+        <!-- individual nav item -->
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>   
+        </li>
+
+        <!-- example dropdown menu item -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Item 1</a></li>
+                <li><a class="dropdown-item" href="#">Item 2</a></li>
+            </ul>
+        </li>
+
+        <!-- place other nav items here --> 
+
+
+
+      </ul>      
+
+
+      <!-- DONT EDIT -- RIGHT SIDE AUTHENTICATION ITEMS ms-auto pushes to right -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0" >
+        
+          <!-- UNAUTHENTICATED LINKS -->
+          <li class="nav-item" asp-condition="@(!User.Identity.IsAuthenticated)">
+              <a class="nav-link" asp-controller="User" asp-action="Login">Login</a>
+          </li>
+          <li class="nav-item" asp-condition="@(!User.Identity.IsAuthenticated)">
+              <a class="nav-link" asp-controller="User" asp-action="Register">Register</a>
+          </li>
+
+          <!-- AUTHENTICATED DROPDOWN -->
+          <li class="nav-item dropdown" asp-condition="@User.Identity.IsAuthenticated">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  @User.Identity.Name
+              </a>
+              <!-- dropdown-menu-end ensures menu displays within the viewport, even near the right edge. -->
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" asp-controller="User" asp-action="UpdateProfile"><i class="bi bi-gear"></i> Update Profile</a></li>
+                  <li><a class="dropdown-item" asp-controller="User" asp-action="UpdatePassword"><i class="bi bi-lock-fill"></i> Update Password</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                      <form asp-controller="User" asp-action="Logout">
+                              <button type="submit" class="dropdown-item btn btn-link"><i class="bi bi-person-dash-fill"></i> Logout</button>
+                      </form>
+                  </li>
+              </ul>
+          </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+</nav>
