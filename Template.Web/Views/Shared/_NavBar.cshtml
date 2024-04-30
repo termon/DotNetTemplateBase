@@ -20,25 +20,23 @@
             <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>   
         </li>
 
-        <!-- individual nav item -->
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>   
+        <li class="nav-item" asp-condition=@User.HasOneOfRoles("admin")>
+            <a class="nav-link" asp-controller="User" asp-action="Index">Users</a>   
         </li>
+        
+        <!-- place other nav items here --> 
+
 
         <!-- example dropdown menu item -->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
+                Company
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Item 1</a></li>
-                <li><a class="dropdown-item" href="#">Item 2</a></li>
+                <li><a class="dropdown-item" asp-controller="Home" asp-action="About">About</a></li>
+                <li><a class="dropdown-item" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
             </ul>
         </li>
-
-        <!-- place other nav items here --> 
-
-
 
       </ul>      
 

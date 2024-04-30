@@ -7,11 +7,10 @@ namespace Template.Web;
 /// <summary>
 /// Authorize tag helper. @Copyright Dave Paquette
 /// 
-/// AMC - This TagHelper has a dependency that Startup ConfigureServices 
-///       adds service singleton below to provide HttpContextAccessor via DI
-///       to TagHelper. This was removed from default services due to performance cost
+/// AMC - This TagHelper has a dependency requiring HttpContextAccessor be added to Services. 
+///       This was removed from default services due to possible performance cost
 /// 
-///      services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+///      builder.Services.AddHttpContextAccessor(); 
 ///
 /// </summary>
 [HtmlTargetElement(Attributes = "asp-authorize")]

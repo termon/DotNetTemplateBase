@@ -14,7 +14,7 @@ namespace Template.Data.Services
             // add users
             svc.AddUser("Administrator", "admin@mail.com", "admin", Role.admin);
             svc.AddUser("Manager", "manager@mail.com", "manager", Role.manager);
-            svc.AddUser("Guest", "guest@mail.com", "guest", Role.guest);    
+            svc.AddUser("Guest", "guest@mail.com", "guest", Role.guest); 
         }
     }
 

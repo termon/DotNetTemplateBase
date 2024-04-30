@@ -21,8 +21,5 @@ public class RegisterViewModel
     [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
     public string PasswordConfirm  { get; set; }
 
-    [Required]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public Role Role { get; set; }
 
 }

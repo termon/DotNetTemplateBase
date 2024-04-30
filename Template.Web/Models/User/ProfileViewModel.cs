@@ -15,7 +15,6 @@ public class ProfileViewModel
     [Remote(action: "VerifyEmailAvailable", controller: "User", AdditionalFields = nameof(Id))]
     public string Email { get; set; }
 
-    [Required]
     public Role Role { get; set; }
 
 }
