@@ -76,20 +76,17 @@ app.UseAuthorization();
 2. A ClaimsPrincipal authentication extension method
     * ```User.GetSignedInUserId()``` - returns Id of current logged in user or 0 if not logged in
 
-3. Two custom TagHelpers are included that provide
+3. Custom TagHelpers are included that provide
 
-    a. Authentication and authorisation Tags
-
-    * ```<p asp-authorized>Only displayed if the user is authenticated</p>```
-
-    * ```<p asp-roles="admin,manager">Only displayed if the user has one of specified roles</p>```
-
-    Note: to enable these tag helpers Program.cs needs following service added to DI container
-    ```builder.Services.AddHttpContextAccessor();```
-
-    b. Conditional Display Tag
+    a. Conditional Display Tag
 
     * ```<p asp-condtion="@some_boolean_expression">Only displayed if the condition is true</p>```
+
+    Note: this can be used with claims principal extension method above to conditionally hide/display UI elements depending on whether a user has a specific role as shown below:
+
+    ```
+    <div asp-condtion="@User.HasOneOfRoles("rolea, roleb")"> ... </div>
+    ```
 
 4. A Breadcrumbs partial view is contained in ```Views/Shared/_Breadcrumbs.cshtml``` and can be added to a View as shown in example below. The the model parameter is an array of tuples containing the route and breadcrumb.
 
