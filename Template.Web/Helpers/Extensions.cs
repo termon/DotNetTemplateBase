@@ -28,30 +28,6 @@ public static class Extensions
                 });
     }
 
-    // --------------------------- AUTHORISATION Helper ----------------------------//
-    public static void AddPolicyAuthorisation(this IServiceCollection services)
-    {
-        // https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies
-
-        services.AddAuthorization( options => {
-            // add policies here
-            options.AddPolicy("RolePolicy", policy => 
-                policy.RequireRole("admin","manager")
-            ); 
-        
-            options.AddPolicy("IsManagerRoleOrIsGuestEmail", policy => 
-                policy.RequireAssertion(context => 
-                    context.User.HasOneOfRoles("manager") || 
-                    context.User.Claims
-                            .FirstOrDefault( c => c.Type == ClaimTypes.Email).Value == "guest@mail.com"
-                ) 
-            );  
-            // for more sophisticated policies see resource based policies
-            // https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased  
-            
-        });
-    }
-
     // --------------------------- AUTHENTICATION Helper ----------------------------//
     // ClaimsPrincipal extension method to extract user id (sid) from claims
     public static int GetSignedInUserId(this ClaimsPrincipal user)

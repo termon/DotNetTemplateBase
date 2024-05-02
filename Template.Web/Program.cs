@@ -44,9 +44,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ** configure cors to allow full cross origin access to any webapi end points **
-//app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
 // ** turn on authentication/authorisation **
 app.UseAuthentication();
 app.UseAuthorization();
