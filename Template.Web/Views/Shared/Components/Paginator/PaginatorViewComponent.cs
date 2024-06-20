@@ -5,8 +5,8 @@ namespace Template.Web.Views.Shared.Components;
 [ViewComponent]
 public class PaginatorViewComponent : ViewComponent
 {
-    
-    public IViewComponentResult Invoke(string action, int rows, int pages, int current, int size=10)
+ 
+    public IViewComponentResult Invoke(string action, int rows, int pages, int current, int size=10, int links=15)
     {       
         // extract existing query parameters except for page and size (these will be replaced with updated values)
         var existingParams = Request.Query
@@ -16,9 +16,17 @@ public class PaginatorViewComponent : ViewComponent
         
         // build paginator pages (page no and url)
         var pageLinks = new List<Page>();
+        var (start,end) = LinkRange(pages, current, links);
         for(var p=1; p<=pages;  p++)
-        {       
-            pageLinks.Add( new Page(p, BuildUrl(action, p, size, existingParams)) ); 
+        {   
+            if (p >= start && p <=end || p == 1 || p == pages)
+            {
+                pageLinks.Add( new Page(p, BuildUrl(action, p, size, existingParams)) ); 
+            }
+            else 
+            {
+                pageLinks.Add( null );
+            }
         }
 
         var props = new PaginatorProps {           
@@ -39,6 +47,40 @@ public class PaginatorViewComponent : ViewComponent
         paramsDict.Add("size", size); 
         return Url.Action(action, paramsDict);
     }
+    
+    private static (int,int) LinkRange(int totalPages, int currentPage, int maxLinks=20)
+    {
+        int startPage;
+        int endPage;
+
+        if (totalPages <= maxLinks)
+        {
+            startPage = 1;
+            endPage = totalPages;
+        }
+        else
+        {
+            int middleOffset = maxLinks / 2;
+
+            if (currentPage <= middleOffset)
+            {
+                startPage = 1;
+                endPage = maxLinks;
+            }
+            else if (currentPage + middleOffset >= totalPages)
+            {
+                startPage = totalPages - maxLinks + 1;
+                endPage = totalPages;
+            }
+            else
+            { 
+                startPage = currentPage - middleOffset;
+                endPage = currentPage + middleOffset;
+            }
+        }
+        return (startPage, endPage);
+    }
+
 }
 
 public record Page(int PageNo, string Url);

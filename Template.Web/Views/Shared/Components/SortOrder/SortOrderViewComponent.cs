@@ -6,10 +6,13 @@ namespace Template.Web.Views.Shared.Components;
 public class SortOrderViewComponent : ViewComponent
 {
 
-    public IViewComponentResult Invoke(string field="Id", string orderby="Id", string direction = "asc")
-    {      
-        return View("Default", new SortOrderProps(field.ToLower(), orderby.ToLower(), direction.ToLower()) );
+    public IViewComponentResult Invoke(string field="id") //, string orderby=null, string direction="asc")
+    {    
+        var order = Request.Query.Where(e => e.Key.ToLower() == "order").Select(e =>  e.Value.ToString()).FirstOrDefault() ?? "id";  
+        var direction = Request.Query.Where(e => e.Key.ToLower() == "direction").Select(e =>  e.Value.ToString()).FirstOrDefault() ?? "asc";  
+        
+        return View("Default", new SortOrderProps( field?.ToLower(), order.ToLower(), direction.ToLower()) );
     }
 }
 
-public record SortOrderProps(string Field ="Id", string OrderBy="Id", string Direction="asc");
+public record SortOrderProps(string Field, string OrderBy, string Direction);

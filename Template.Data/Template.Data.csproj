@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <!-- Used in development to create fake seed data -->
+    <PackageReference Include="Bogus" Version="35.5.1" />
+
     <!-- Used By Hasher -->
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.4" />
 

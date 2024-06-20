@@ -1,4 +1,5 @@
 ﻿
+using Bogus;
 using Template.Data.Entities;
 
 namespace Template.Data.Services
@@ -15,6 +16,18 @@ namespace Template.Data.Services
             svc.AddUser("Administrator", "admin@mail.com", "admin", Role.admin);
             svc.AddUser("Manager", "manager@mail.com", "manager", Role.manager);
             svc.AddUser("Guest", "guest@mail.com", "guest", Role.guest); 
+        
+            // optionally add some fake users
+            var faker = new Faker();
+            for(int i=1; i<=20; i++)
+            {
+                var s = svc.AddUser(
+                    faker.Name.FullName(),
+                    faker.Internet.Email(),
+                    "password",
+                    Role.guest
+                );
+            }
         }
     }
 
