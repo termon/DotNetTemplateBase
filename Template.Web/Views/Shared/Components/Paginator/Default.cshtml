@@ -15,12 +15,7 @@
    
     <nav aria-label="table pagination">
         
-        <ul class="pagination">
-            <li class="page-item @(Model.AtFirstPage ? "disabled" : "" )">
-                <a class="page-link" href="@Model.FirstPage?.Url">
-                    <i class="bi bi-arrow-bar-left"></i>
-                </a>          
-            </li>
+        <ul class="pagination">      
             <li class="page-item @(Model.AtFirstPage ? "disabled" : "" )">
                 <a class="page-link" href="@Model.PreviousPage?.Url">
                     <i class="bi bi-arrow-left-short"></i>
@@ -29,20 +24,15 @@
             @foreach (var p in Model.Pages)
             {
                 if (p is not null)
-                {
-                <li class="page-item @(p.PageNo == Model.CurrentPage ? "active" : "")">                    
-                    <a class="page-link" href="@p.Url">@p.PageNo</a>
-                </li>
+                {    
+                    <li class="page-item @(p.PageNo == Model.CurrentPage ? "active" : "")">                    
+                        <a class="page-link" href="@p.Url">@p.PageNo</a>
+                    </li>
                 }
             }
             <li class="page-item @(Model.AtLastPage ? "disabled" : "" )">
                 <a class="page-link" href="@Model.NextPage?.Url">
                     <i class="bi bi-arrow-right-short"></i>
-                </a>
-            </li>
-            <li class="page-item @(Model.AtLastPage ? "disabled" : "")">
-                <a class="page-link" href="@Model.LastPage?.Url">               
-                    <i class="bi bi-arrow-bar-right"></i>
                 </a>
             </li>
         </ul>

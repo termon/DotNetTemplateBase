@@ -11,7 +11,7 @@ The Data project encapsulates all data related concerns and provides data entity
 
 Password hashing functionality is added via the ```Template.Data.Security.Hasher``` class. This is used in the Data project ```UserServiceDb``` to hash the user password before storing in database.
 
-Data pagination is supported via the ```Paged<T>``` entity type. To create paged data from a query we can use the ```ToPaged(...)``` extension method. See ```UserService.GetUsers(....)``` method for a usage example. 
+Data pagination is supported via the ```Paged<T>``` data-type. To create paged data from a query we can use the ```ToPaged(...)``` extension method. See ```UserService.GetUsers(....)``` method for a usage example. 
 
 ## Test Project
 
@@ -101,21 +101,16 @@ app.UseAuthorization();
 
 5. View components are provided for ordering and paging of tabular data sets.  
  
-	* The paginator component can be used to display a UI element to navigate through pages of a model containing a ```Paged<T>``` dataset.
+	* The paginator component can be used to display a UI element to navigate through pages of a model containing a ```Paged<T>``` dataset. The paginator has a single required ```pages``` parameter which is provided via ```@Model.Pages```. The component also accepts a second optional ```links``` parameter which can be used to configure the number of page links (default is 15)
 
 	```c#
-	<vc:paginator action="Index" rows=@Model.TotalRows 
-                  pages=@Model.TotalPages 
-                  current=@Model.CurrentPage 
-                  size=@Model.PageSize  />
+	<vc:paginator pages=@Model.Pages links="10" />
     ```
 
- 
-    * An order component can be used to provide ordering to table columns
+    * A sort link component can be used to provide ordering to table columns. In example below the component provides an anchor tag that will sort the data by "id" column.
 
     ```c#
-    <vc:sort-order field="id" orderby=@Model.OrderBy 
-                              direction=@Model.Direction />
+    <vc:sort-link column="id" />
     ``` 
 
     An example of usage for both can be found in the ```UserController.Index``` action and view ```User/Index.cshtml```.

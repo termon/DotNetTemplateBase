@@ -1,16 +1,27 @@
-namespace Template.Data.Entities;
+namespace Template.Data;
 
-public class Paged<T> {        
-    public List<T> Data { get; set;}
+// Paged class to hold paged data and paging information
+public class Paged<T> : PagedProps {  
+
+    public List<T> Data { get; set; } = new();
+  
+    public PagedProps Pages =>  new PagedProps {
+        TotalRows = TotalRows,
+        CurrentPage = CurrentPage,
+        PageSize = PageSize,       
+    };
+}
+
+// used to pass paging information round the application
+public class PagedProps
+{
     public int TotalRows { get; set; }
     public int CurrentPage { get; set; }
     public int PageSize { get; set; }
     public int TotalPages => (int)Math.Ceiling(TotalRows / (decimal)PageSize);
-
-    public string OrderBy { get; set; } = "id";
-    public string Direction { get; set; } = "asc";
 }
 
+// Extension method to add paging to IQueryable
 public static class PagedExtensions
 {
     public static Paged<T> ToPaged<T>(this IQueryable<T> query, int page = 1, int size = 10, string orderBy = "id", string direction = "asc" )
@@ -27,9 +38,6 @@ public static class PagedExtensions
             TotalRows = totalRows,
             PageSize = size,
             CurrentPage = page,
-            OrderBy = orderBy,
-            //invert current direction for next query
-            Direction = direction.ToLower() == "desc" ? "asc" : "desc"
         };
         
         return paged;
