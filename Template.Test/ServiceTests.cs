@@ -33,7 +33,7 @@ namespace Template.Test
             var users = service.GetUsers();
 
             // assert
-            Assert.Equal(0, users.Count);
+            Assert.Empty(users);
         }
         
         [Fact]
@@ -181,9 +181,9 @@ namespace Template.Test
         public void ResetPasswordRequest_WithValidUserAndExpiredToken_ShouldReturnNull()
         {
             // arrange
-            service.AddUser("admin", "admin@mail.com", "admin", Role.admin );
+            service.AddUser("admin", "admin1@mail.com", "admin", Role.admin );
             var expiredToken = service.ForgotPassword("admin@mail.com");
-            service.ForgotPassword("admin@mail.com");
+            var validToken = service.ForgotPassword("admin@mail.com");
             
             // act      
             var user = service.ResetPassword("admin@mail.com", expiredToken, "password");

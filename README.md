@@ -1,4 +1,4 @@
-# DotNet 8 Base MVC Solution
+# DotNet 9 Base MVC Solution
 
 This .NET project ```Template``` provides a solution containing separate Data, Test and Web(MVC) projects. When installed and used to create a new project, all references to Template will be replaced with the name of your project.
 

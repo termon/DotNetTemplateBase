@@ -137,15 +137,15 @@ namespace Template.Data.Services
             //return (user != null && user.Password == password ) ? user: null;
         }
 
-         public string ForgotPassword(string email)
+        public string ForgotPassword(string email)
         {
             var user = ctx.Users.FirstOrDefault(u => u.Email == email);
             if (user != null) {
                 // invalidate any previous tokens
                 ctx.ForgotPasswords
                     .Where(t => t.Email == email && t.ExpiresAt > DateTime.Now).ToList()
-                    .ForEach(t => t.ExpiresAt = DateTime.Now);
-                var f = new ForgotPassword { Email = email };
+                    .ForEach(t => t.ExpiresAt = DateTime.MinValue);
+                var f = new ForgotPassword { Email = email, Token = Guid.NewGuid().ToString() };
                 ctx.ForgotPasswords.Add(f);
                 ctx.SaveChanges();
                 return f.Token;
@@ -163,7 +163,7 @@ namespace Template.Data.Services
             }
             // find valid reset token for user
             var reset = ctx.ForgotPasswords
-                           .FirstOrDefault(t => t.Email == email && t.Token == token && t.ExpiresAt > DateTime.Now);
+                           .FirstOrDefault(t => t.Email == email && t.Token == token && t.ExpiresAt > DateTime.Now); 
             if (reset == null) 
             {
                 return null; // reset token invalid
