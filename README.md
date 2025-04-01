@@ -17,6 +17,9 @@ Data pagination is supported via the ```Paged<T>``` data-type. To create paged d
 
 The Test project references the Core and Data projects and should implement unit tests to test any service implementations created in the Data project. A sample test file is provided for implementation of IUserService. You should provide your own tests to exercise the functionality of any services you create.
 
+Test project also supports integration tests to verify operation of controllers. See `HomeControllerIntegrationTests` for example.
+
+
 ## Web Project
 
 The Web project uses the MVC pattern to implement a web application. It references the Data project and uses the exposed services and models to access data management functionality. This allows the Web project to be completely independent of the service implementation details defined in the Data project.
