@@ -14,19 +14,29 @@ namespace Template.Data.Repositories
          // authentication store
         public DbSet<User> Users { get; set; }
         public DbSet<ForgotPassword> ForgotPasswords { get; set; }
-        
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
-        }
-        
-        // Configure the context with logging - remove in production
-        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        // {
-        //     // remove in production 
-        //     optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();               
-        // }
 
-        public static DbContextOptionsBuilder<DatabaseContext> OptionsBuilder => new ();
+        // add any additional DbSet properties for other entities here
+
+
+
+        // Default constructor for scenarios where no DI is available
+        public DatabaseContext() : base() { }
+        
+        // Constructor that accepts DbContextOptions, typically used with Dependency Injection
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+        
+        // Configure the context with default options when not already configured via DI
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Filename=data.db");                
+                optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
+            }
+        }
+
+
+        public static DbContextOptionsBuilder<DatabaseContext> OptionsBuilder => new();
 
         // Convenience method to recreate the database thus ensuring the new database takes 
         // account of any changes to Models or DatabaseContext. ONLY to be used in development
