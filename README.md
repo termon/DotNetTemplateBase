@@ -275,6 +275,11 @@ Test project also supports integration tests to verify operation of controllers.
 - **`FileDatabaseTestBase`**: Complex scenarios requiring debugging, data inspection
 - **`ProductionDatabaseTestBase`**: Integration tests, database-specific feature validation, pre-deployment testing
 
+### Running Tests
+
+#### Console
+> ```dotnet test``` run all tests
+> ```dotnet test --filter "ResetPasswordRequests_WhenAllCompleted_ShouldExpireAllTokens" --verbosity normal``` run specific tests
 
 ## Web Project
 
