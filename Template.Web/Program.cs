@@ -1,7 +1,7 @@
-using Template.Web;
+
 using Template.Data.Services;
+using Template.Data.Extensions;
 using Template.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Template.Web;
 
@@ -17,14 +17,8 @@ public class Program
         // Configure Authentication / Authorisation via extension methods 
         builder.Services.AddCookieAuthentication();
 
-        builder.Services.AddDbContext<DatabaseContext>(options =>
-        {
-            // Configure connection string for selected database in appsettings.json
-            options.UseSqlite(builder.Configuration.GetConnectionString("Sqlite"));
-            //options.UseMySql(builder.Configuration.GetConnectionString("MySql"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySql")));
-            //options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"));
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
-        });
+        // Add Database Context using extension method
+        builder.Services.AddDatabaseContext(builder.Configuration);
 
         // Add Application Services to DI   
         builder.Services.AddTransient<IUserService, UserServiceDb>();
@@ -43,8 +37,9 @@ public class Program
         {
             // seed users in development mode - using service provider to get UserService from DI
             using var scope = app.Services.CreateScope();
-            Seeder.Seed(scope.ServiceProvider.GetService<IUserService>());
-            //Seeder.SeedDb(scope.ServiceProvider.GetService<DatabaseContext>());
+            //Seeder.Seed(scope.ServiceProvider.GetService<IUserService>());
+            //Seeder.SeedDb(scope.ServiceProvider.GetRequiredService<DatabaseContext>());
+            Seeder.SeedDb();
         }
 
         app.UseHttpsRedirection();

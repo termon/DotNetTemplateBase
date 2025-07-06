@@ -1,10 +1,9 @@
-namespace Template.Data.Services
-{
+namespace Template.Data.Services;
 
-    public interface IMailService
-    {
-        bool SendMail(string subject, string body, string to, string from = null, bool asHtml=true);
-        Task<bool> SendMailAsync(string subject, string body, string to, string from = null, bool asHtml=true);
-    }
+public interface IMailService
+{
+    bool SendMail(string subject, string body, string to, string from = null, bool asHtml=true);
+    Task<bool> SendMailAsync(string subject, string body, string to, string from = null, bool asHtml=true);
 }
+
 

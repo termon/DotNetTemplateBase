@@ -1,12 +1,22 @@
-<!-- AMC - alert partial to display any alerts via layout template -->
+<!-- AMC - alert partial to display any alerts via layout templatefile -->
 @{
     var message = TempData["Alert.Message"] ?? null;
     var type    = TempData["Alert.Type"]    ?? null;
 }
 @if (message != null)
 {
-    <div class="alert alert-@type alert-dismissible fade show" role="alert">
+    <div class="alert alert-@type alert-dismissible fade show" 
+         role="alert"
+         x-data="{ show: true }" 
+         x-show="show"
+         x-init="setTimeout(() => show = false, 5000)"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="opacity-100 transform scale-100"
+         x-transition:leave-end="opacity-0 transform scale-95">
         @message
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" 
+                class="btn-close" 
+                @@click="show = false"
+                aria-label="Close"></button>
     </div>
 }

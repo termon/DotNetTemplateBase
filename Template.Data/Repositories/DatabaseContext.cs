@@ -11,7 +11,7 @@ namespace Template.Data.Repositories
     // We define DbSet properties for each table in the database
     public class DatabaseContext : DbContext
     {
-         // authentication store
+        // authentication store
         public DbSet<User> Users { get; set; }
         public DbSet<ForgotPassword> ForgotPasswords { get; set; }
 
@@ -19,18 +19,15 @@ namespace Template.Data.Repositories
 
 
 
-        // Default constructor for scenarios where no DI is available
-        public DatabaseContext() : base() { }
-        
         // Constructor that accepts DbContextOptions, typically used with Dependency Injection
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
         
-        // Configure the context with default options when not already configured via DI
+        // Configure the context with logging - remove in production
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Filename=data.db");                
+                // Add logging for development (remove in production)
                 optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).EnableSensitiveDataLogging();
             }
         }

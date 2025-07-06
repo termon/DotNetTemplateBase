@@ -1,29 +1,20 @@
-
 using Xunit;
-using Microsoft.EntityFrameworkCore;
 
 using Template.Data.Entities;
 using Template.Data.Services;
-using Template.Data.Repositories;
 using Template.Data.Security;
 
 namespace Template.Test;
 
-[Collection("Sequential")]
-public class ServiceTests
+//public class ServiceTests : InMemoryDatabaseTestBase
+public class ServiceTests : InMemoryDatabaseTestBase   
 {
     private readonly IUserService service;
 
-    public ServiceTests()
+    public ServiceTests()  
     {
-        // configure the data context options to use sqlite for testing
-        var options = DatabaseContext.OptionsBuilder
-                        .UseSqlite("Filename=test.db")
-                        //.LogTo(Console.WriteLine)
-                        .Options;
-
-        // create service with new context
-        service = new UserServiceDb(new DatabaseContext(options));
+        // Create the service using the database context from the base class
+        service = new UserServiceDb(Context);
         service.Initialise();
     }
 
@@ -49,6 +40,49 @@ public class ServiceTests
 
         // assert
         Assert.Equal(2, users.Count);
+    }
+
+    [Fact]
+    public void AddUser_WithUserObject_ShouldCreateUser()
+    {
+        // arrange
+        var user = new User 
+        { 
+            Name = "testuser", 
+            Email = "test@mail.com", 
+            Password = "password123", 
+            Role = Role.guest 
+        };
+
+        // act
+        var addedUser = service.AddUser(user);
+
+        // assert
+        Assert.NotNull(addedUser);
+        Assert.Equal("testuser", addedUser.Name);
+        Assert.Equal("test@mail.com", addedUser.Email);
+        Assert.Equal(Role.guest, addedUser.Role);
+        Assert.True(Hasher.ValidateHash(addedUser.Password, "password123"));
+    }
+
+    [Fact]
+    public void AddUser_WithUserObject_WhenEmailExists_ShouldReturnNull()
+    {
+        // arrange
+        service.AddUser("admin", "admin@mail.com", "admin", Role.admin);
+        var user = new User 
+        { 
+            Name = "testuser", 
+            Email = "admin@mail.com", // same email as existing user
+            Password = "password123", 
+            Role = Role.guest 
+        };
+
+        // act
+        var addedUser = service.AddUser(user);
+
+        // assert
+        Assert.Null(addedUser);
     }
 
     [Fact]
