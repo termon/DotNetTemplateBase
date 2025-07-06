@@ -38,8 +38,8 @@ public class Program
             // seed users in development mode - using service provider to get UserService from DI
             using var scope = app.Services.CreateScope();
             //Seeder.Seed(scope.ServiceProvider.GetService<IUserService>());
-            //Seeder.SeedDb(scope.ServiceProvider.GetRequiredService<DatabaseContext>());
-            Seeder.SeedDb();
+            Seeder.SeedDb(scope.ServiceProvider.GetRequiredService<DatabaseContext>());
+            //Seeder.SeedDb();
         }
 
         app.UseHttpsRedirection();

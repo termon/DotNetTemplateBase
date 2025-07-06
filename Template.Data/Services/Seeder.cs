@@ -25,7 +25,7 @@ public static class Seeder
     public static void SeedDb(DatabaseContext db = null)
     {
         // if db is null, create a new default instance using the factory
-        db ??= DatabaseContextFactory.CreateContext("MySql");
+        db ??= DatabaseContextFactory.CreateContext();
 
         // seeder destroys and recreates the database - DO NOT call in production!!!
         db.Initialise();
