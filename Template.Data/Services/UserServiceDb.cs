@@ -179,7 +179,7 @@ public class UserServiceDb : IUserService
         }
 
         // valid token and user so update password, invalidate the token and return the user           
-        reset.ExpiresAt = DateTime.Now;
+        reset.ExpiresAt = DateTime.MinValue;
         user.Password = Hasher.CalculateHash(password);
         ctx.SaveChanges();
         return user;
