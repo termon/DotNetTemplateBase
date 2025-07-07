@@ -92,7 +92,7 @@ dotnet restore
 
 **Step 3: Uncomment the Code**
 
-In `Template.Data/Repositories/DatabaseContextFactory.cs`, uncomment the relevant lines:
+In `Template.Data/Repositories/DatabaseContextFactory.cs`, `CreateContext` method uncomment the relevant lines:
 
 For PostgreSQL:
 ```csharp

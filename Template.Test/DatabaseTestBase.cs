@@ -305,11 +305,13 @@ namespace Template.Test
                     options.UseMySql(testConnectionString, ServerVersion.AutoDetect(testConnectionString));
                     break;
                 case "sqlserver":
-                    // Note: SQL Server support requires adding Microsoft.EntityFrameworkCore.SqlServer to the test project
+                    // Note: SQL Server support requires adding Microsoft.EntityFrameworkCore.SqlServer to the test project uncomment line below and comment the throw statement
+                    //options.UseSqlServer(testConnectionString);
                     throw new NotSupportedException(
                         $"Database provider '{databaseProvider}' requires adding Microsoft.EntityFrameworkCore.SqlServer package to the Data project.");
                 case "postgres":
-                    // Note: PostgreSQL support requires adding Npgsql.EntityFrameworkCore.PostgreSQL to the test project
+                    // Note: PostgreSQL support requires adding Npgsql.EntityFrameworkCore.PostgreSQL to the test project uncomment line below and comment the throw statement
+                    //options.UseNpgsql(testConnectionString);
                     throw new NotSupportedException(
                         $"Database provider '{databaseProvider}' requires adding Npgsql.EntityFrameworkCore.PostgreSQL package to the Data project.");
                 default:
