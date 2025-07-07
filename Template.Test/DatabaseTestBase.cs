@@ -298,17 +298,24 @@ namespace Template.Test
             // Create new context with test database connection string
             var options = new DbContextOptionsBuilder<DatabaseContext>();
             
-            // Configure based on provider - using MySqlConnector which is already available
+            // Configure based on provider using pattern matching
             switch (databaseProvider.ToLower())
             {
                 case "mysql":
                     options.UseMySql(testConnectionString, ServerVersion.AutoDetect(testConnectionString));
                     break;
+                case "sqlserver":
+                    // Note: SQL Server support requires adding Microsoft.EntityFrameworkCore.SqlServer to the test project
+                    throw new NotSupportedException(
+                        $"Database provider '{databaseProvider}' requires adding Microsoft.EntityFrameworkCore.SqlServer package to the Data project.");
+                case "postgres":
+                    // Note: PostgreSQL support requires adding Npgsql.EntityFrameworkCore.PostgreSQL to the test project
+                    throw new NotSupportedException(
+                        $"Database provider '{databaseProvider}' requires adding Npgsql.EntityFrameworkCore.PostgreSQL package to the Data project.");
                 default:
                     throw new NotSupportedException(
-                        $"Database provider '{databaseProvider}' is not currently supported in the test project. " +
-                        $"To add support, uncomment the package reference in the Data project and add the " +
-                        $"corresponding package to the Test project.");
+                        $"Database provider '{databaseProvider}' is not currently supported. " +
+                        $"To add support, uncomment the package reference in the Data project");
             }
             
             context = new DatabaseContext(options.Options);

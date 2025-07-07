@@ -2,6 +2,32 @@
 
 This .NET project ```Template``` provides a solution containing separate Data, Test and Web(MVC) projects. When installed and used to create a new project, all references to ```Template``` will be replaced with the name of your project.
 
+## Install Template
+
+To install this solution as a Template (Template name is **termonbase**)
+
+1. Download current version of the Template
+
+    ```$ git clone https://github.com/termon/DotNetTemplateBase.git```
+
+2. Install the Template so it can be used by ```dotnet new``` command. Use the full path to the cloned Template directory (replace `/path/` or `c:\path\` with your actual directory path where you cloned the template)
+
+    Linux/macOS
+
+    ```dotnet new install /path/DotNetTemplateBase```
+
+    Windows
+
+    ```dotnet new install c:\path\DotNetTemplateBase```
+
+3. Once installed you can create a new project using this Template.
+
+    ```dotnet new termonbase -n SolutionName```
+
+4. To uninstall a Template (no longer can be used with dotnet new ).
+
+    ```dotnet new uninstall /path/DotNetTemplateBase```
+
 ## Data Project
 
 The Data project encapsulates all data related concerns and provides data entity (database) and implementations of following services:
@@ -253,7 +279,7 @@ Follow the steps in the [Database Context Factory](#database-context-factory) se
 **Step 3: Use the Production Test Base**
 Inherit from `ProductionDatabaseTestBase` and specify the database provider in the constructor.
 
-> **Note**: If you encounter a "Database provider not supported" error, it means the provider hasn't been enabled in the test project. Follow the steps above to enable the desired provider.
+> **Note**: If you encounter a "Database provider not supported" error, it means the provider hasn't been enabled in the Data project. Follow the steps above to enable the desired provider.
 
 ### Integration Tests
 
@@ -608,28 +634,3 @@ The project's alert system uses Alpine.js for enhanced functionality:
 
 > **Note**: The layout includes jQuery for form validation compatibility. Alpine.js provides a modern alternative for new interactive features.
 
-## Install Template
-
-To install this solution as a Template (Template name is **termonbase**)
-
-1. Download current version of the Template
-
-    ```$ git clone https://github.com/termon/DotNetTemplateBase.git```
-
-2. Install the Template so it can be used by ```dotnet new``` command. Use the path (i.e the directory location)to the cloned Template directory without trailing '/'
-
-    Linux/macOS
-
-    ```$ dotnet new install /path/DotNetTemplateBase```
-
-    Windows
-
-    ```c:> dotnet new install c:\path\DotNetTemplateBase```
-
-3. Once installed you can create a new project using this Template.
-
-    ```dotnet new termonbase -n SolutionName```
-
-4. To uninstall a Template (no longer can be used with dotnet new ).
-
-    ```dotnet new uninstall /path/DotNetTemplateBase```
