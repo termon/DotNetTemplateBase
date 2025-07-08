@@ -438,6 +438,121 @@ builder.Services.AddTransient<IMailService,SmtpMailService>();
 
 * Database ConnectionString and MailSettings should be configured as required in ```appsettings.json```*
 
+## Email Configuration
+
+The application includes an SMTP email service for sending notifications (password resets, etc.). Configure email settings in `appsettings.json` or `appsettings.Development.json`.
+
+### Configuration Example
+
+```json
+{
+  "MailSettings": {
+    "FromAddress": "noreply@yourapp.com",
+    "Host": "localhost",
+    "Port": 1025,
+    "UserName": "",
+    "Password": "",
+    "EnableSsl": false
+  }
+}
+```
+
+### Test SMTP Server Setup (Mailpit)
+
+For development and testing, we recommend using [Mailpit](https://github.com/axllent/mailpit) - a lightweight SMTP server with a web interface.
+
+#### Install Mailpit
+
+**Using Docker:**
+```bash
+docker run -d \
+  --name mailpit \
+  -p 8025:8025 \
+  -p 1025:1025 \
+  axllent/mailpit
+```
+
+**Using Homebrew (macOS):**
+```bash
+brew install mailpit
+mailpit
+```
+
+**Using Chocolatey (Windows):**
+```bash
+choco install mailpit
+mailpit
+```
+
+**Using Scoop (Windows):**
+```bash
+scoop install mailpit
+mailpit
+```
+
+**Using Go:**
+```bash
+go install github.com/axllent/mailpit@latest
+mailpit
+```
+
+**Manual Download (Windows/Linux/macOS):**
+1. Download the appropriate binary from [Mailpit releases](https://github.com/axllent/mailpit/releases)
+2. Extract and run the executable directly
+
+#### Mailpit Configuration
+
+When running Mailpit with default settings, use these configuration values:
+
+```json
+{
+  "MailSettings": {
+    "FromAddress": "noreply@localhost",
+    "Host": "localhost",
+    "Port": 1025,
+    "UserName": "",
+    "Password": "",
+    "EnableSsl": false
+  }
+}
+```
+
+#### Access Mailpit Web Interface
+
+Once Mailpit is running, you can view sent emails at: http://localhost:8025
+
+### Production Email Providers
+
+For production, configure with your email provider:
+
+**Gmail SMTP:**
+```json
+{
+  "MailSettings": {
+    "FromAddress": "your-email@gmail.com",
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "UserName": "your-email@gmail.com",
+    "Password": "your-app-password",
+    "EnableSsl": true
+  }
+}
+```
+
+**SendGrid SMTP:**
+```json
+{
+  "MailSettings": {
+    "FromAddress": "noreply@yourdomain.com",
+    "Host": "smtp.sendgrid.net",
+    "Port": 587,
+    "UserName": "apikey",
+    "Password": "your-sendgrid-api-key",
+    "EnableSsl": true
+  }
+}
+```
+
 ### Identity
 
 The project provides extension methods to enable:

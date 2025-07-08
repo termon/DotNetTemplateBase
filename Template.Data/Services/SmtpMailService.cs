@@ -12,15 +12,17 @@ public class SmtpMailService : IMailService
     private readonly int _port;
     private readonly string _username;
     private readonly string _password;
-    
+     private readonly bool _enableSsl = true;
+
     // appsettings.json section MailSettings contains mail configuration
     public SmtpMailService(IConfiguration config)
     {
         _from = config.GetSection("MailSettings")["FromAddress"] ?? string.Empty; //.GetValue<string>("FromAddress");
         _host = config.GetSection("MailSettings")["Host"] ?? string.Empty;
-        _port = Int32.Parse( (config.GetSection("MailSettings")["Port"] ?? "0"));
+        _port = Int32.Parse((config.GetSection("MailSettings")["Port"] ?? "0"));
         _username = config.GetSection("MailSettings")["UserName"] ?? string.Empty;
-        _password = config.GetSection("MailSettings")["Password"] ?? string.Empty;  
+        _password = config.GetSection("MailSettings")["Password"] ?? string.Empty;
+        _enableSsl = config.GetSection("MailSettings")["EnableSsl"]?.ToLower() == "true";  
     }
     
     // send mail
@@ -31,7 +33,7 @@ public class SmtpMailService : IMailService
         {
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential(_username, _password),
-            EnableSsl = true,
+            EnableSsl = _enableSsl,
             DeliveryMethod = SmtpDeliveryMethod.Network
         };
         try
@@ -64,8 +66,10 @@ public class SmtpMailService : IMailService
         // now configure smtp client 
         var client = new SmtpClient(_host, _port)
         {
+            UseDefaultCredentials = false,
             Credentials = new NetworkCredential(_username, _password),
-            EnableSsl = true
+            EnableSsl = _enableSsl,
+            DeliveryMethod = SmtpDeliveryMethod.Network
         };
         try
         {
